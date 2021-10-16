@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { getConnectionOptions } from 'typeorm'
+import { ExamLaboratoryModule } from './modules/exam-laboratory/exam-laboratory.module'
 import { ExamModule } from './modules/exam/exam.module'
 import { LaboratoryModule } from './modules/laboratory/laboratory.module'
 
@@ -14,7 +15,8 @@ import { LaboratoryModule } from './modules/laboratory/laboratory.module'
       })
     }),
     LaboratoryModule,
-    ExamModule
+    ExamModule,
+    ExamLaboratoryModule
   ]
 })
 export class AppModule {}
