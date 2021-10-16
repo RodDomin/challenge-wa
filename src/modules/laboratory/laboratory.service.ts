@@ -5,6 +5,8 @@ import { CreateLaboratoryDto } from './dtos/create-laboratory.dto'
 
 import { Laboratory } from './laboratory.entity'
 import { UpdateLaboratoryDto } from './dtos/update-laboratory.dto'
+import { LaboratoryNotFoundException } from './exceptions/laboratory-not-found.exception'
+import { LaboratoryNotActiveException } from './exceptions/laboratory-not-active.exception'
 
 @Injectable()
 export class LaboratoryService {
@@ -26,6 +28,16 @@ export class LaboratoryService {
   }
 
   async update (id: number, dto: UpdateLaboratoryDto): Promise<Laboratory> {
+    const laboratory = await this.repository.findOne(id)
+
+    if (!laboratory) {
+      throw new LaboratoryNotFoundException()
+    }
+
+    if (!laboratory.isActive()) {
+      throw new LaboratoryNotActiveException()
+    }
+
     await this.repository.update(id, dto)
 
     return await this.repository.findOne(id)

@@ -12,4 +12,8 @@ export class Laboratory extends BaseEntity {
 
   @Column({ type: 'varchar' })
   status: Status
+
+  isActive () {
+    return this.status === 'active'
+  }
 }
