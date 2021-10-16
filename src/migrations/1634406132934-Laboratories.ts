@@ -9,6 +9,7 @@ export class Laboratories1634406132934 implements MigrationInterface {
           name: 'id',
           type: 'int',
           isPrimary: true,
+          isGenerated: true,
           generationStrategy: 'increment'
         },
         {
@@ -42,7 +43,7 @@ export class Laboratories1634406132934 implements MigrationInterface {
           isNullable: true
         }
       ]
-    }))
+    }), true)
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
