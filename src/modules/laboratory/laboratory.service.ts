@@ -9,17 +9,22 @@ import { LaboratoryNotFoundException } from './exceptions/laboratory-not-found.e
 import { LaboratoryNotActiveException } from './exceptions/laboratory-not-active.exception'
 import { FilterLaboratoryDto } from './dtos/filter-laboratory.dto'
 import { FilterQueryBuilder } from '../shared/filter-query.builder'
+import { PaginatedBuilder } from '../shared/paginated.builder'
+import { PaginatedDto } from '../shared/paginated.dto'
 
 @Injectable()
 export class LaboratoryService {
   constructor (
     @InjectRepository(Laboratory)
     private readonly repository: Repository<Laboratory>,
-    private readonly filterQueryBuilder: FilterQueryBuilder
+    private readonly filterQueryBuilder: FilterQueryBuilder,
+    private readonly paginatedBuilder: PaginatedBuilder<Laboratory>
   ) {}
 
-  async list (dto: FilterLaboratoryDto): Promise<Laboratory[]> {
-    return await this.repository.find(this.filterQueryBuilder.build(dto))
+  async list (dto: FilterLaboratoryDto): Promise<PaginatedDto<Laboratory>> {
+    const [result, counter] = await this.repository.findAndCount(this.filterQueryBuilder.build(dto))
+
+    return this.paginatedBuilder.build(result, counter, dto)
   }
 
   async findOne (id: number): Promise<Laboratory> {

@@ -5,6 +5,7 @@ import { ParseToClass } from '../shared/parse-to-class.pipe'
 import { CreateLaboratoryDto } from './dtos/create-laboratory.dto'
 import { FilterLaboratoryDto } from './dtos/filter-laboratory.dto'
 import { LaboratoryDto } from './dtos/laboratory.dto'
+import { PagiantedLaboratoryDto } from './dtos/paginated-laboratory.dto'
 import { UpdateLaboratoryDto } from './dtos/update-laboratory.dto'
 import { LaboratoryService } from './laboratory.service'
 
@@ -15,7 +16,7 @@ export class LaboratoryController {
     private readonly service: LaboratoryService
   ) {}
 
-  @ApiOkResponse({ type: [LaboratoryDto] })
+  @ApiOkResponse({ type: [PagiantedLaboratoryDto] })
   @Get()
   async list (@Query(new ParseToClass(FilterLaboratoryDto)) dto: FilterLaboratoryDto) {
     return this.service.list(dto)
