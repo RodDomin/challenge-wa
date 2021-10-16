@@ -13,7 +13,7 @@ export class ExamLaboratoryController {
   async list (
     @Param('id', ParseIntPipe) id: number
   ) {
-    await this.service.list(id)
+    return this.service.list(id)
   }
 
   @Post('/:laboratoryId')

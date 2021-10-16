@@ -9,6 +9,7 @@ import { LaboratoryService } from './laboratory.service'
 @Module({
   imports: [TypeOrmModule.forFeature([Laboratory]), SharedModule],
   controllers: [LaboratoryController],
-  providers: [LaboratoryService]
+  providers: [LaboratoryService],
+  exports: [LaboratoryService]
 })
 export class LaboratoryModule {}

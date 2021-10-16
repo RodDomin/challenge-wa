@@ -8,6 +8,7 @@ import { ExamService } from './exam.service'
 @Module({
   imports: [TypeOrmModule.forFeature([Exam]), SharedModule],
   controllers: [ExamController],
-  providers: [ExamService]
+  providers: [ExamService],
+  exports: [ExamService]
 })
 export class ExamModule {}

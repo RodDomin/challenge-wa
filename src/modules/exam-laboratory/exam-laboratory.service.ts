@@ -1,11 +1,15 @@
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { ExamService } from '../exam/exam.service'
 import { LaboratoryService } from '../laboratory/laboratory.service'
 import { ExamLaboratory } from './exam-laboratory.entity'
 import { ExamLaboratoryDoesNotHaveRelationException } from './exceptions/exam-laboratory-does-not-have-relation.exception'
 
+@Injectable()
 export class ExamLaboratoryService {
   constructor (
+    @InjectRepository(ExamLaboratory)
     private readonly repository: Repository<ExamLaboratory>,
     private readonly examService: ExamService,
     private readonly laboratoryService: LaboratoryService
@@ -34,15 +38,17 @@ export class ExamLaboratoryService {
       throw new ExamLaboratoryDoesNotHaveRelationException()
     }
 
-    await this.repository.delete(relation)
+    await this.repository.delete(relation.id)
   }
 
   async list (exam: number) {
-    return (await this.repository.find({
+    const rels = await this.repository.find({
       where: {
         examId: exam
       },
       relations: ['laboratory']
-    })).map(each => each.laboratory)
+    })
+
+    return rels.map(each => each.laboratory)
   }
 }

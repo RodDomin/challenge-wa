@@ -4,18 +4,18 @@ import { PaginationFilterDto } from 'src/modules/shared/pagination-filter.dto'
 import { Status } from 'src/modules/shared/status'
 
 export class FilterExamDto extends PaginationFilterDto {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   name: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   @IsEnum(['clinical', 'image'])
   type: 'clinical' | 'image'
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   @IsEnum(['active', 'inactive'])
