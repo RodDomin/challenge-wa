@@ -7,20 +7,29 @@ import { Laboratory } from './laboratory.entity'
 import { UpdateLaboratoryDto } from './dtos/update-laboratory.dto'
 import { LaboratoryNotFoundException } from './exceptions/laboratory-not-found.exception'
 import { LaboratoryNotActiveException } from './exceptions/laboratory-not-active.exception'
+import { FilterLaboratoryDto } from './dtos/filter-laboratory.dto'
+import { FilterQueryBuilder } from '../shared/filter-query.builder'
 
 @Injectable()
 export class LaboratoryService {
   constructor (
     @InjectRepository(Laboratory)
-    private readonly repository: Repository<Laboratory>
+    private readonly repository: Repository<Laboratory>,
+    private readonly filterQueryBuilder: FilterQueryBuilder
   ) {}
 
-  async list (): Promise<Laboratory[]> {
-    return await this.repository.find()
+  async list (dto: FilterLaboratoryDto): Promise<Laboratory[]> {
+    return await this.repository.find(this.filterQueryBuilder.build(dto))
   }
 
   async findOne (id: number): Promise<Laboratory> {
-    return await this.repository.findOne(id)
+    const laboratory = await this.repository.findOne(id)
+
+    if (!laboratory) {
+      throw new LaboratoryNotFoundException()
+    }
+
+    return laboratory
   }
 
   async create (dto: CreateLaboratoryDto): Promise<Laboratory> {
@@ -28,7 +37,7 @@ export class LaboratoryService {
   }
 
   async update (id: number, dto: UpdateLaboratoryDto): Promise<Laboratory> {
-    const laboratory = await this.repository.findOne(id)
+    let laboratory = await this.repository.findOne(id)
 
     if (!laboratory) {
       throw new LaboratoryNotFoundException()
@@ -38,9 +47,12 @@ export class LaboratoryService {
       throw new LaboratoryNotActiveException()
     }
 
-    await this.repository.update(id, dto)
+    laboratory = await this.repository.save({
+      ...laboratory,
+      ...dto
+    })
 
-    return await this.repository.findOne(id)
+    return laboratory
   }
 
   async delete (id: number): Promise<void> {

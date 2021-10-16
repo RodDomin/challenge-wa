@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common'
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 import { CreateLaboratoryDto } from './dtos/create-laboratory.dto'
+import { FilterLaboratoryDto } from './dtos/filter-laboratory.dto'
 import { LaboratoryDto } from './dtos/laboratory.dto'
 import { UpdateLaboratoryDto } from './dtos/update-laboratory.dto'
 import { LaboratoryService } from './laboratory.service'
@@ -15,8 +16,8 @@ export class LaboratoryController {
 
   @ApiOkResponse({ type: [LaboratoryDto] })
   @Get()
-  async list () {
-    return this.service.list()
+  async list (@Query() dto: FilterLaboratoryDto) {
+    return this.service.list(dto)
   }
 
   @ApiOkResponse({ type: LaboratoryDto })
