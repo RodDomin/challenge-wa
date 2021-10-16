@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common'
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ParseToClass } from '../shared/parse-to-class.pipe'
 import { CreateExamDto } from './dtos/create-exam.dto'
 import { ExamDto } from './dtos/exam.dto'
+import { FilterExamDto } from './dtos/filter-exam.dto'
 import { UpdateExamDto } from './dtos/update-exam.dto'
 import { ExamService } from './exam.service'
 
@@ -14,8 +16,8 @@ export class ExamController {
 
   @ApiOkResponse({ type: [ExamDto] })
   @Get()
-  async list () {
-    return this.service.list()
+  async list (@Query(new ParseToClass(FilterExamDto)) dto: FilterExamDto) {
+    return this.service.list(dto)
   }
 
   @ApiOkResponse({ type: ExamDto })
