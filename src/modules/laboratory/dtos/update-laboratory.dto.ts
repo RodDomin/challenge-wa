@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator'
-import { Status } from '../laboratory.entity'
+import { Status } from 'src/modules/shared/status'
 
 export class UpdateLaboratoryDto {
   @IsOptional()

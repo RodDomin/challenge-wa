@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { CreateLaboratoryDto } from "./create-laboratory.dto";
+import { ApiProperty } from '@nestjs/swagger'
+import { CreateLaboratoryDto } from './create-laboratory.dto'
 
 export class LaboratoryDto extends CreateLaboratoryDto {
   @ApiProperty()

@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity } from 'typeorm'
+import { Column, Entity } from 'typeorm'
+import { BaseEntity } from '../shared/base-entity'
 import { Status } from '../shared/status'
 
 @Entity('exams')
