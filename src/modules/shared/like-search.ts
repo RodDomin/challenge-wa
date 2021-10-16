@@ -1,5 +1,5 @@
-import { SetMetadata } from '@nestjs/common'
-
-export function LikeSearch () {
-  return SetMetadata('LIKE_SEARCH', true)
+export function LikeSearch (): PropertyDecorator {
+  return (target: Object, propertyKey: string) => {
+    Reflect.defineMetadata('LIKE_SEARCH', true, target, propertyKey)
+  }
 }

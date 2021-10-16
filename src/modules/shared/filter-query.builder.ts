@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common'
 import { Like } from 'typeorm'
 import { IsLikeSearch } from './is-like-search'
 import { PaginationFilterDto } from './pagination-filter.dto'
 
+@Injectable()
 export class FilterQueryBuilder<T extends PaginationFilterDto = PaginationFilterDto> {
   private readonly PAGINATION_KEYS = ['page', 'limit', 'skip']
 
@@ -13,7 +15,7 @@ export class FilterQueryBuilder<T extends PaginationFilterDto = PaginationFilter
     const keys = Object.keys(dto)
 
     const query = {
-      take: dto.limit,
+      take: Number(dto.limit),
       skip: dto.skip(),
       where: keys.reduce(
         (prev, currentField) => ({
@@ -33,7 +35,7 @@ export class FilterQueryBuilder<T extends PaginationFilterDto = PaginationFilter
     }
 
     return {
-      [field]: this.likeSearch.validate(dto[field]) ? Like(`%${dto[field]}%`) : dto[field]
+      [field]: this.likeSearch.validate(dto, field) ? Like(`%${dto[field]}%`) : dto[field]
     }
   }
 

@@ -1,13 +1,10 @@
-import { Reflector } from '@nestjs/core'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class IsLikeSearch {
-  constructor (
-    private readonly reflector: Reflector
-  ) {}
+  validate (object: Record<string, any>, fieldName: string): boolean {
+    const metadata = Reflect.getMetadata('LIKE_SEARCH', object, fieldName)
 
-  validate (field: any): boolean {
-    const isLikeSearch = !!this.reflector.get('LIKE_SEARCH', field)
-
-    return isLikeSearch
+    return metadata !== undefined
   }
 }
