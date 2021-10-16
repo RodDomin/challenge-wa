@@ -1,15 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsOptional, IsEnum } from 'class-validator'
+import { IsEnum, IsOptional, IsString } from 'class-validator'
 import { Status } from 'src/modules/shared/status'
 
-export class CreateLaboratoryDto {
+export class UpdateExamDto {
   @ApiProperty()
   @IsString()
+  @IsOptional()
   name: string
 
   @ApiProperty()
+  @IsOptional()
   @IsString()
-  address: string
+  @IsEnum(['clinical', 'image'])
+  type: 'clinical' | 'image'
 
   @ApiProperty()
   @IsOptional()
