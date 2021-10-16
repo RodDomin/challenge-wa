@@ -1,7 +1,6 @@
 import { Entity, Column } from 'typeorm'
 import { BaseEntity } from '../shared/base-entity'
-
-export type Status = 'active' | 'inactive'
+import { Status } from '../shared/status'
 
 @Entity('laboratories')
 export class Laboratory extends BaseEntity {
