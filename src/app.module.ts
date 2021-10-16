@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { getConnectionOptions } from 'typeorm'
+import { ExamModule } from './modules/exam/exam.module'
 import { LaboratoryModule } from './modules/laboratory/laboratory.module'
 
 @Module({
@@ -12,7 +13,8 @@ import { LaboratoryModule } from './modules/laboratory/laboratory.module'
         autoLoadEntities: true
       })
     }),
-    LaboratoryModule
+    LaboratoryModule,
+    ExamModule
   ]
 })
 export class AppModule {}
