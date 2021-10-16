@@ -24,7 +24,13 @@ export class ExamService {
   }
 
   async findOne (id: number): Promise<Exam> {
-    return await this.repository.findOne(id)
+    const exam = await this.repository.findOne(id)
+
+    if (!exam) {
+      throw new ExamNotFoundException()
+    }
+
+    return exam
   }
 
   async create (dto: CreateExamDto): Promise<Exam> {
