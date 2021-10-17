@@ -42,6 +42,8 @@ export class ExamLaboratoryService {
   }
 
   async list (exam: number) {
+    await this.examService.findOne(exam)
+
     const rels = await this.repository.find({
       where: {
         examId: exam
