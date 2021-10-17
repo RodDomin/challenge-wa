@@ -10,7 +10,6 @@ import { CreateExamDto } from '../dtos/create-exam.dto'
 import { UpdateExamDto } from '../dtos/update-exam.dto'
 import { Exam } from '../exam.entity'
 import { ExamModule } from '../exam.module'
-import { ExamNotFoundException } from '../exceptions/exam-not-found.exception'
 
 describe('exam integration tests', () => {
   let app: INestApplication
