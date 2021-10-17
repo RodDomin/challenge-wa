@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node ./node_modules/.bin/typeorm"
+    "typeorm": "ts-node ./node_modules/.bin/typeorm",
+    "start:docker": "npm run typeorm migration:run && npm run build && node ./dist/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -76,6 +77,11 @@
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
+    ],
+    "modulePathIgnorePatterns": [
+      "./dist/",
+      "./src/migrations/",
+      "./src/main.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
