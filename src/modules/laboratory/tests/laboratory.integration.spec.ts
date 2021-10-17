@@ -10,7 +10,6 @@ import { LaboratoryModule } from '../laboratory.module'
 import { PaginationFilterDto } from 'src/modules/shared/pagination-filter.dto'
 import { CreateLaboratoryDto } from '../dtos/create-laboratory.dto'
 import { UpdateLaboratoryDto } from '../dtos/update-laboratory.dto'
-import { database } from 'faker'
 
 describe('laboratory integration', () => {
   let app: INestApplication
@@ -52,6 +51,29 @@ describe('laboratory integration', () => {
 
     return labRepository.save(laboratory)
   }
+
+  describe('GET /laboratories/:id', () => {
+    it('should return 404 when user try get on a non existent laboratory', async () => {
+      const response = await request.get('/laboratories/1')
+
+      expect(response.statusCode).toBe(404)
+    })
+
+    it('should return laboratory', async () => {
+      const laboratory = await makeLaboratory()
+
+      const response = await request.get(`/laboratories/${laboratory.id}`)
+
+      expect(response.body).toMatchObject({
+        id: laboratory.id,
+        name: expect.any(String),
+        status: 'active',
+        address: expect.any(String),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String)
+      })
+    })
+  })
 
   describe('GET /laboratories', () => {
     it('should return paginated list of laboratories', async () => {
