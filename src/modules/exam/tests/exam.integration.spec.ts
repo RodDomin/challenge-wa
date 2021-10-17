@@ -101,71 +101,70 @@ describe('exam integration tests', () => {
         updatedAt: expect.any(String)
       })
     })
+  })
+  describe('POST /exams', () => {
+    it('should return created exam', async () => {
+      const dto: CreateExamDto = {
+        name: faker.lorem.word(),
+        status: 'active',
+        type: 'clinical'
+      }
 
-    describe('POST /exams', () => {
-      it('should return created exam', async () => {
-        const dto: CreateExamDto = {
-          name: faker.lorem.word(),
-          status: 'active',
-          type: 'clinical'
-        }
+      const response = await request.post('/exams').send(dto)
 
-        const response = await request.post('/exams').send(dto)
-
-        expect(response.statusCode).toBe(201)
-        expect(response.body).toMatchObject({
-          id: expect.any(Number),
-          name: dto.name,
-          status: 'active',
-          type: 'clinical',
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
-        })
+      expect(response.statusCode).toBe(201)
+      expect(response.body).toMatchObject({
+        id: expect.any(Number),
+        name: dto.name,
+        status: 'active',
+        type: 'clinical',
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String)
       })
     })
+  })
 
-    describe('PUT /exams/:id', () => {
-      it('should return 404 when user try to update an exam that doesnt exists', async () => {
-        const response = await request.put('/exams/1')
+  describe('PUT /exams/:id', () => {
+    it('should return 404 when user try to update an exam that doesnt exists', async () => {
+      const response = await request.put('/exams/1')
 
-        expect(response.statusCode).toBe(404)
-      })
-
-      it('should return updated exam', async () => {
-        const { id } = await makeExam()
-
-        const dto: UpdateExamDto = {
-          name: faker.lorem.word()
-        }
-
-        const response = await request.put(`/exams/${id}`).send(dto)
-
-        expect(response.statusCode).toBe(200)
-        expect(response.body).toMatchObject({
-          id: expect.any(Number),
-          name: dto.name,
-          status: 'active',
-          type: 'clinical',
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
-        })
-      })
+      expect(response.statusCode).toBe(404)
     })
 
-    describe('DELETE /exams/:id', () => {
-      it('should return 404 when try to delete an exam that doesnt exists', async () => {
-        const response = await request.delete('/exams/1')
+    it('should return updated exam', async () => {
+      const { id } = await makeExam()
 
-        expect(response.statusCode).toBe(404)
+      const dto: UpdateExamDto = {
+        name: faker.lorem.word()
+      }
+
+      const response = await request.put(`/exams/${id}`).send(dto)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toMatchObject({
+        id: expect.any(Number),
+        name: dto.name,
+        status: 'active',
+        type: 'clinical',
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String)
       })
+    })
+  })
 
-      it('should delete exam from database', async () => {
-        const { id } = await makeExam()
+  describe('DELETE /exams/:id', () => {
+    it('should return 404 when try to delete an exam that doesnt exists', async () => {
+      const response = await request.delete('/exams/1')
 
-        const response = await request.delete(`/exams/${id}`)
+      expect(response.statusCode).toBe(404)
+    })
 
-        expect(response.statusCode).toBe(204)
-      })
+    it('should delete exam from database', async () => {
+      const { id } = await makeExam()
+
+      const response = await request.delete(`/exams/${id}`)
+
+      expect(response.statusCode).toBe(204)
     })
   })
 })
