@@ -2,7 +2,7 @@ import { InjectConnection } from '@nestjs/typeorm'
 import { Connection, Repository } from 'typeorm'
 
 interface Instantiable<T> {
-  new: () => T
+  new(): T
 }
 
 export class DatabaseService {

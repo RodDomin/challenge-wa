@@ -61,6 +61,12 @@ export class LaboratoryService {
   }
 
   async delete (id: number): Promise<void> {
+    const laboratory = await this.repository.findOne(id)
+
+    if (!laboratory) {
+      throw new LaboratoryNotFoundException()
+    }
+
     await this.repository.delete(id)
   }
 }
