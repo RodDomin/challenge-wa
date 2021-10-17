@@ -53,6 +53,12 @@ export class ExamService {
   }
 
   async delete (id: number): Promise<void> {
+    const exam = await this.repository.findOne(id)
+
+    if (!exam) {
+      throw new ExamNotFoundException()
+    }
+
     await this.repository.delete(id)
   }
 }

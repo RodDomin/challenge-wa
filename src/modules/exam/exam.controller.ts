@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common'
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import { ParseToClass } from '../shared/parse-to-class.pipe'
 import { CreateExamDto } from './dtos/create-exam.dto'
@@ -43,6 +43,7 @@ export class ExamController {
 
   @ApiOkResponse()
   @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async delete (@Param('id', ParseIntPipe) id: number) {
     await this.service.delete(id)
   }

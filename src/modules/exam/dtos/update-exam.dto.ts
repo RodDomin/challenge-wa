@@ -6,17 +6,17 @@ export class UpdateExamDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  name: string
+  name?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsEnum(['clinical', 'image'])
-  type: 'clinical' | 'image'
+  type?: 'clinical' | 'image'
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsEnum(['active', 'inactive'])
-  status: Status
+  status?: Status
 }
