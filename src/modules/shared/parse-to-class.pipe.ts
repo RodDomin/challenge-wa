@@ -7,7 +7,7 @@ export class ParseToClass implements PipeTransform<Record<string, any>, any> {
     private readonly Clazz: any
   ) {}
 
-  transform (value: Record<string, any>, metadata: ArgumentMetadata): any {
+  transform (value: Record<string, any>): any {
     const instance = new this.Clazz()
 
     Object.assign(instance, value)
